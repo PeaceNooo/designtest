@@ -1,7 +1,6 @@
 package com.example.designtest.controller;
 
 import com.example.designtest.model.University;
-import com.example.designtest.model.UserInfo;
 import com.example.designtest.service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

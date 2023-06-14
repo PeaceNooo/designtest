@@ -1,6 +1,5 @@
 package com.example.designtest.service;
 import com.example.designtest.model.University;
-import com.example.designtest.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

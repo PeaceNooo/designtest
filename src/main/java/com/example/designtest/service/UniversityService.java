@@ -1,7 +1,6 @@
 package com.example.designtest.service;
 
 import com.example.designtest.model.University;
-import com.example.designtest.model.UserInfo;
 
 import java.util.List;
 
