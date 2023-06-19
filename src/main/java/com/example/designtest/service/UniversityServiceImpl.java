@@ -3,6 +3,9 @@ import com.example.designtest.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.support.WebClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,10 +22,21 @@ public class UniversityServiceImpl implements UniversityService{
 
     @Override
     public List<University> getUniversityByName(String name) {
-        List<University> universities = Arrays.asList(restTemplate.getForObject(
-                "http://universities.hipolabs.com/search?name=" + name,
-                University[].class));
-        universities.forEach(university -> System.out.println(university.toString()));
+//        List<University> universities = Arrays.asList(restTemplate.getForObject(
+//                "http://universities.hipolabs.com/search?name=" + name,
+//                University[].class));
+//        universities.forEach(university -> System.out.println(university.toString()));
+
+
+        // Spring-WebFlux
+        // https://adevait.com/java/spring-boot-3-0#:~:text=the%20usage%20of-,webclient,-with%20the%20JDK's
+        WebClient client = WebClient.builder().baseUrl("http://universities.hipolabs.com/search?name=" + name).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
+        JsonPlaceholderService jps = factory.createClient(JsonPlaceholderService.class);
+        List<University> universities = jps.getPosts();
+
+
+
         return universities;
     }
 
