@@ -14,9 +14,12 @@ import java.util.List;
 public class UniversityServiceImpl implements UniversityService{
     private final RestTemplate restTemplate;
 
+    private final JsonPlaceholderService jps;
+
     @Autowired
-    public UniversityServiceImpl(RestTemplate restTemplate) {
+    public UniversityServiceImpl(RestTemplate restTemplate, JsonPlaceholderService jps) {
         this.restTemplate = restTemplate;
+        this.jps = jps;
     }
 
 
@@ -30,12 +33,8 @@ public class UniversityServiceImpl implements UniversityService{
 
         // Spring-WebFlux
         // https://adevait.com/java/spring-boot-3-0#:~:text=the%20usage%20of-,webclient,-with%20the%20JDK's
-        WebClient client = WebClient.builder().baseUrl("http://universities.hipolabs.com/search?name=" + name).build();
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
-        JsonPlaceholderService jps = factory.createClient(JsonPlaceholderService.class);
-        List<University> universities = jps.getPosts();
 
-
+        List<University> universities = jps.getPosts(name);
 
         return universities;
     }
